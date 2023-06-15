@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="red700">#FFC2185B</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Gammer MVVM App</string>
+    <string name="default_web_client_id" translatable="false">311717863555-1t7rbvvsflhiok0m7gvtfnigt7u8r9ip.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">311717863555</string>
+    <string name="google_api_key" translatable="false">AIzaSyB-ENXfAkyRkwbtufmI5hl2ak9dfJKkI80</string>
+    <string name="google_app_id" translatable="false">1:311717863555:android:a190d789fa23a150e73bb6</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB-ENXfAkyRkwbtufmI5hl2ak9dfJKkI80</string>
+    <string name="google_storage_bucket" translatable="false">gammer-mvvm-app.appspot.com</string>
+    <string name="project_id" translatable="false">gammer-mvvm-app</string>
+    <style name="Theme.GammerMVVMApp" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/red700</item>
+    </style>
+</resources>
