@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "311717863555",
+    "project_id": "gammer-mvvm-app",
+    "storage_bucket": "gammer-mvvm-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311717863555:android:a190d789fa23a150e73bb6",
+        "android_client_info": {
+          "package_name": "com.cas.gammermvvmapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311717863555-1t7rbvvsflhiok0m7gvtfnigt7u8r9ip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-ENXfAkyRkwbtufmI5hl2ak9dfJKkI80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311717863555-1t7rbvvsflhiok0m7gvtfnigt7u8r9ip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
