@@ -11,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +27,13 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
 
     private val _loginFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
     val loginFlow:StateFlow<Response<FirebaseUser>?> = _loginFlow
+
+    val currentUser = authUseCases.getCurrentUser()
+    init {
+        if (currentUser != null){
+            _loginFlow.value = Response.Success(currentUser)
+        }
+    }
 
     fun login() = viewModelScope.launch {
         _loginFlow.value = Response.Loading
