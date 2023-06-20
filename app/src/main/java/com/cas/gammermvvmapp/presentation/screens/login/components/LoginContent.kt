@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.cas.gammermvvmapp.R
 import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.presentation.DefaultButton
@@ -27,10 +29,11 @@ import com.cas.gammermvvmapp.presentation.DefaultTextField
 import com.cas.gammermvvmapp.presentation.Darkgray500
 import com.cas.gammermvvmapp.presentation.GammerMVVMAppTheme
 import com.cas.gammermvvmapp.presentation.Red500
+import com.cas.gammermvvmapp.presentation.navigation.AppScreen
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel
 
 @Composable
-fun LoginContent(viewModel: LoginViewModel = hiltViewModel()) {
+fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel = hiltViewModel()) {
 
     val loginFlow = viewModel.loginFlow.collectAsState()
 
@@ -134,17 +137,21 @@ fun LoginContent(viewModel: LoginViewModel = hiltViewModel()) {
                 state.exception?.message ?: "Unknown error", Toast.LENGTH_LONG
             ).show()
 
-            is Response.Success -> Toast.makeText(
-                LocalContext.current,
-                "User logged in.",
-                Toast.LENGTH_LONG
-            ).show()
+            is Response.Success -> {
+                LaunchedEffect(Unit){
+                    navHostController.navigate(route = AppScreen.Profile.route){
+                        popUpTo(AppScreen.Login.route){ inclusive = true  }  //olvida el historial de navegacion hasta este punto.
+                    }
+                }
+            }
 
-            null -> Toast.makeText(
-                LocalContext.current,
-                "Context null",
-                Toast.LENGTH_LONG
-            ).show()
+            null -> {
+                Toast.makeText(
+                    LocalContext.current,
+                    "Context null",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 }
@@ -159,7 +166,7 @@ fun DefaultPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            LoginContent()
+            LoginContent(rememberNavController())
         }
     }
 }
