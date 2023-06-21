@@ -15,7 +15,7 @@ import com.cas.gammermvvmapp.presentation.screens.signup.components.SignUpConten
 fun SignUpScreen(navHostController: NavHostController) {
     Scaffold(topBar = { DefaultTopBar(title = "New User", upAvailable = true, navHostController = navHostController)},
             content = {
-                SignUpContent()
+                SignUpContent(navHostController)
                 },
             bottomBar = {})
 }
