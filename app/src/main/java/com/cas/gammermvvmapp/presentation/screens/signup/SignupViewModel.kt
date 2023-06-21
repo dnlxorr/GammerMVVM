@@ -4,11 +4,19 @@ import android.util.Patterns
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.cas.gammermvvmapp.domain.model.Response
+import com.cas.gammermvvmapp.domain.model.User
+import com.cas.gammermvvmapp.domain.usecases.auth.AuthUseCases
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor():ViewModel() {
+class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases) : ViewModel() {
 
     var email: MutableState<String> = mutableStateOf("")
     var isEmailValid: MutableState<Boolean> = mutableStateOf(false)
@@ -28,48 +36,65 @@ class SignupViewModel @Inject constructor():ViewModel() {
 
     var isEnabledSignupButton = false
 
-    private fun enableSignupButton(){
-        isEnabledSignupButton = isUsernameValid.value && isEmailValid.value && isPasswordValid.value && isConfirmPasswordValid.value
+    private fun enableSignupButton() {
+        isEnabledSignupButton =
+            isUsernameValid.value && isEmailValid.value && isPasswordValid.value && isConfirmPasswordValid.value
     }
 
-    fun validateUsername(){
-        if (username.value.length>=5){
+    private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
+    val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
+    fun signup(user: User) = viewModelScope.launch {
+        _signupFlow.value = Response.Loading
+        val result = authUseCases.signup(user)
+        _signupFlow.value = result
+    }
+    fun onSignup(){
+        val user = User(
+            username = username.value,
+            email = email.value,
+            password = password.value
+        )
+        signup(user)
+    }
+
+    fun validateUsername() {
+        if (username.value.length >= 5) {
             isUsernameValid.value = true
             usernameErrorMsg.value = ""
-        }else{
-            isUsernameValid.value =false
+        } else {
+            isUsernameValid.value = false
             usernameErrorMsg.value = "5 chars at least!"
         }
         enableSignupButton()
     }
 
-    fun validateEmail(){
-        if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()){
+    fun validateEmail() {
+        if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
             isEmailValid.value = true
             emailErrorMsg.value = ""
-        }else{
-            isEmailValid.value =false
+        } else {
+            isEmailValid.value = false
             emailErrorMsg.value = "Invalid email!"
         }
         enableSignupButton()
     }
 
-    fun validatePassword(){
-        if (password.value.length>=6){
+    fun validatePassword() {
+        if (password.value.length >= 6) {
             isPasswordValid.value = true
             passwordErrorMsg.value = ""
-        }else{
+        } else {
             isPasswordValid.value = false
             passwordErrorMsg.value = "Use 6 characters or more!"
         }
         enableSignupButton()
     }
 
-    fun validateConfirmPassword(){
-        if (password.value==confirmPassword.value){
+    fun validateConfirmPassword() {
+        if (password.value == confirmPassword.value) {
             isConfirmPasswordValid.value = true
             confirmPasswordErrorMsg.value = ""
-        }else{
+        } else {
             isConfirmPasswordValid.value = false
             confirmPasswordErrorMsg.value = "Password do not match!"
         }
