@@ -1,5 +1,6 @@
 package com.cas.gammermvvmapp.presentation.screens.signup.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,16 +22,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.cas.gammermvvmapp.R
+import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.DefaultTextField
 import com.cas.gammermvvmapp.presentation.Darkgray500
 import com.cas.gammermvvmapp.presentation.GammerMVVMAppTheme
 import com.cas.gammermvvmapp.presentation.Red500
+import com.cas.gammermvvmapp.presentation.navigation.AppScreen
 import com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel
 
 @Composable
-fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
+fun SignUpContent(
+    navHostController: NavHostController,
+    signupViewModel: SignupViewModel = hiltViewModel()
+) {
+
+    val signupFlow = signupViewModel.signupFlow.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,7 +82,11 @@ fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Please fill the fields to continue", fontSize = 12.sp, color = Color.Gray)
+                Text(
+                    text = "Please fill the fields to continue",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 8.dp),
                     value = signupViewModel.username.value,
@@ -78,7 +94,7 @@ fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
                     label = "User Name",
                     icon = Icons.Default.Person,
                     errorMsg = signupViewModel.usernameErrorMsg.value,
-                    validateField = {signupViewModel.validateUsername()}
+                    validateField = { signupViewModel.validateUsername() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
@@ -88,7 +104,7 @@ fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
                     errorMsg = signupViewModel.emailErrorMsg.value,
-                    validateField = {signupViewModel.validateEmail()}
+                    validateField = { signupViewModel.validateEmail() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
@@ -99,7 +115,7 @@ fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
                     keyboardType = KeyboardType.Password,
                     hideText = true,
                     errorMsg = signupViewModel.passwordErrorMsg.value,
-                    validateField = {signupViewModel.validatePassword()}
+                    validateField = { signupViewModel.validatePassword() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
@@ -110,7 +126,7 @@ fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
                     keyboardType = KeyboardType.Password,
                     hideText = true,
                     errorMsg = signupViewModel.confirmPasswordErrorMsg.value,
-                    validateField = {signupViewModel.validateConfirmPassword()}
+                    validateField = { signupViewModel.validateConfirmPassword() }
                 )
 
                 DefaultButton(
@@ -118,13 +134,37 @@ fun SignUpContent(signupViewModel: SignupViewModel = hiltViewModel()) {
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
                     text = "SIGN UP",
-                    onClick = { /*TODO*/ },
-                enable = signupViewModel.isEnabledSignupButton)
+                    onClick = { signupViewModel.onSignup() },
+                    enable = signupViewModel.isEnabledSignupButton
+                )
 
             }
 
         }
     }
+    signupFlow.value.let {
+        when (it) {
+            Response.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            is Response.Success -> {
+                LaunchedEffect(Unit) {
+                    navHostController.navigate(route = AppScreen.Profile.route) {
+                        popUpTo(AppScreen.SignUp.route) { inclusive = true }
+                    }
+                }
+            }
+            is Response.Failure ->{
+                Toast.makeText(LocalContext.current,it.exception?.message ?: "Unknown erorr",Toast.LENGTH_LONG).show()
+        }
+            else -> {}
+        }
+}
 
 }
 
@@ -138,7 +178,7 @@ fun DefaultPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            SignUpContent()
+            SignUpContent(rememberNavController())
         }
     }
 }
