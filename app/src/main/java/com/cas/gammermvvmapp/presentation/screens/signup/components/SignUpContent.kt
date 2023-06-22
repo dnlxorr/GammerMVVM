@@ -154,17 +154,21 @@ fun SignUpContent(
             }
             is Response.Success -> {
                 LaunchedEffect(Unit) {
-                    navHostController.navigate(route = AppScreen.Profile.route) {
-                        popUpTo(AppScreen.SignUp.route) { inclusive = true }
-                    }
+                    navHostController.popBackStack(AppScreen.Login.route, inclusive = true)
+                    navHostController.navigate(route = AppScreen.Profile.route)
                 }
             }
-            is Response.Failure ->{
-                Toast.makeText(LocalContext.current,it.exception?.message ?: "Unknown erorr",Toast.LENGTH_LONG).show()
-        }
+
+            is Response.Failure -> {
+                Toast.makeText(
+                    LocalContext.current,
+                    it.exception?.message ?: "Unknown erorr",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             else -> {}
         }
-}
+    }
 
 }
 
