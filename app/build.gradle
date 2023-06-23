@@ -73,9 +73,16 @@ dependencies {
     //Dagger+Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
 //    implementation "androidx.hilt:hilt-navigation:1.1.0-alpha02"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    // Login authentication Firebase
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

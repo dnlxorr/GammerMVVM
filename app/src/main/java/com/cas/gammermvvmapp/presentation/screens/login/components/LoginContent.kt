@@ -146,11 +146,11 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
             }
 
             null -> {
-                Toast.makeText(
-                    LocalContext.current,
-                    "Context null",
-                    Toast.LENGTH_LONG
-                ).show()
+//                Toast.makeText(
+//                    LocalContext.current,
+//                    "Context null",
+//                    Toast.LENGTH_LONG
+//                ).show()
             }
         }
     }

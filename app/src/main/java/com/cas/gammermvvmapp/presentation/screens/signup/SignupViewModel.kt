@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.domain.model.User
 import com.cas.gammermvvmapp.domain.usecases.auth.AuthUseCases
+import com.cas.gammermvvmapp.domain.usecases.users.UsersUseCases
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases) : ViewModel() {
+class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases, private val usersUseCases: UsersUseCases) : ViewModel() {
 
     var email: MutableState<String> = mutableStateOf("")
     var isEmailValid: MutableState<Boolean> = mutableStateOf(false)
@@ -43,18 +44,23 @@ class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases
 
     private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
     val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
+
+    var user = User()
     fun signup(user: User) = viewModelScope.launch {
         _signupFlow.value = Response.Loading
         val result = authUseCases.signup(user)
         _signupFlow.value = result
     }
     fun onSignup(){
-        val user = User(
-            username = username.value,
-            email = email.value,
-            password = password.value
-        )
+        user.username = username.value
+        user.email = email.value
+        user.password = password.value
         signup(user)
+    }
+
+    fun createUser() = viewModelScope.launch {
+        user.id = authUseCases.getCurrentUser()!!.uid
+        usersUseCases.createNewUser(user)
     }
 
     fun validateUsername() {
