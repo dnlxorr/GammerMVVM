@@ -69,6 +69,7 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
             text = "Edit info",
             color = Color.White,
             icon = Icons.Default.Edit,
+            textColor = Color.Black,
             onClick = { /*TODO*/ })
         Spacer(modifier = Modifier.height(10.dp))
         DefaultButton(modifier = Modifier, text = "Logout",
