@@ -8,17 +8,29 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 import com.cas.gammermvvmapp.data.repository.AuthRepositoryImpl;
+import com.cas.gammermvvmapp.data.repository.UsersRepositoryImpl;
 import com.cas.gammermvvmapp.di.AppModule;
 import com.cas.gammermvvmapp.di.AppModule_ProvideAuthRepositoryFactory;
 import com.cas.gammermvvmapp.di.AppModule_ProvideAuthUseCasesFactory;
 import com.cas.gammermvvmapp.di.AppModule_ProvideFirebaseAuthFactory;
+import com.cas.gammermvvmapp.di.AppModule_ProvideFirebaseFirestoreFactory;
+import com.cas.gammermvvmapp.di.AppModule_ProvideUsersRefFactory;
+import com.cas.gammermvvmapp.di.AppModule_ProvidesUsersRepositoryFactory;
+import com.cas.gammermvvmapp.di.AppModule_ProvidesUsersUseCasesFactory;
 import com.cas.gammermvvmapp.domain.repository.AuthRepository;
+import com.cas.gammermvvmapp.domain.repository.UsersRepository;
 import com.cas.gammermvvmapp.domain.usecases.auth.AuthUseCases;
+import com.cas.gammermvvmapp.domain.usecases.users.UsersUseCases;
 import com.cas.gammermvvmapp.presentation.MainActivity;
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel;
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel;
+import com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel_HiltModules_KeyModule_ProvideFactory;
 import com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel;
 import com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel_HiltModules_KeyModule_ProvideFactory;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.firebase.firestore.CollectionReference;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
 import dagger.hilt.android.flags.HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule;
@@ -35,10 +47,7 @@ import dagger.hilt.android.internal.managers.ActivityRetainedComponentManager_Li
 import dagger.hilt.android.internal.modules.ApplicationContextModule;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.DoubleCheck;
-import dagger.internal.MapBuilder;
 import dagger.internal.Preconditions;
-import dagger.internal.SetBuilder;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import javax.inject.Provider;
@@ -382,7 +391,7 @@ public final class DaggerGammerMVVMApp_HiltComponents_SingletonC {
 
     @Override
     public Set<String> getViewModelKeys() {
-      return SetBuilder.<String>newSetBuilder(2).add(LoginViewModel_HiltModules_KeyModule_ProvideFactory.provide()).add(SignupViewModel_HiltModules_KeyModule_ProvideFactory.provide()).build();
+      return ImmutableSet.<String>of(LoginViewModel_HiltModules_KeyModule_ProvideFactory.provide(), ProfileViewModel_HiltModules_KeyModule_ProvideFactory.provide(), SignupViewModel_HiltModules_KeyModule_ProvideFactory.provide());
     }
 
     @Override
@@ -410,6 +419,8 @@ public final class DaggerGammerMVVMApp_HiltComponents_SingletonC {
 
     private Provider<LoginViewModel> loginViewModelProvider;
 
+    private Provider<ProfileViewModel> profileViewModelProvider;
+
     private Provider<SignupViewModel> signupViewModelProvider;
 
     private ViewModelCImpl(SingletonCImpl singletonCImpl,
@@ -426,12 +437,13 @@ public final class DaggerGammerMVVMApp_HiltComponents_SingletonC {
     private void initialize(final SavedStateHandle savedStateHandleParam,
         final ViewModelLifecycle viewModelLifecycleParam) {
       this.loginViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
-      this.signupViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
+      this.profileViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
+      this.signupViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
     }
 
     @Override
     public Map<String, Provider<ViewModel>> getHiltViewModelMap() {
-      return MapBuilder.<String, Provider<ViewModel>>newMapBuilder(2).put("com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel", ((Provider) loginViewModelProvider)).put("com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel", ((Provider) signupViewModelProvider)).build();
+      return ImmutableMap.<String, Provider<ViewModel>>of("com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel", ((Provider) loginViewModelProvider), "com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel", ((Provider) profileViewModelProvider), "com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel", ((Provider) signupViewModelProvider));
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -458,8 +470,11 @@ public final class DaggerGammerMVVMApp_HiltComponents_SingletonC {
           case 0: // com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel 
           return (T) new LoginViewModel(singletonCImpl.authUseCases());
 
-          case 1: // com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel 
-          return (T) new SignupViewModel();
+          case 1: // com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel 
+          return (T) new ProfileViewModel(singletonCImpl.authUseCases());
+
+          case 2: // com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel 
+          return (T) new SignupViewModel(singletonCImpl.authUseCases(), singletonCImpl.usersUseCases());
 
           default: throw new AssertionError(id);
         }
@@ -555,13 +570,29 @@ public final class DaggerGammerMVVMApp_HiltComponents_SingletonC {
       return AppModule_ProvideAuthUseCasesFactory.provideAuthUseCases(authRepository());
     }
 
+    private CollectionReference collectionReference() {
+      return AppModule_ProvideUsersRefFactory.provideUsersRef(AppModule_ProvideFirebaseFirestoreFactory.provideFirebaseFirestore());
+    }
+
+    private UsersRepositoryImpl usersRepositoryImpl() {
+      return new UsersRepositoryImpl(collectionReference());
+    }
+
+    private UsersRepository usersRepository() {
+      return AppModule_ProvidesUsersRepositoryFactory.providesUsersRepository(usersRepositoryImpl());
+    }
+
+    private UsersUseCases usersUseCases() {
+      return AppModule_ProvidesUsersUseCasesFactory.providesUsersUseCases(usersRepository());
+    }
+
     @Override
     public void injectGammerMVVMApp(GammerMVVMApp arg0) {
     }
 
     @Override
     public Set<Boolean> getDisableFragmentGetContextFix() {
-      return Collections.<Boolean>emptySet();
+      return ImmutableSet.<Boolean>of();
     }
 
     @Override

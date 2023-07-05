@@ -3,6 +3,7 @@ package com.cas.gammermvvmapp;
 import com.cas.gammermvvmapp.di.AppModule;
 import com.cas.gammermvvmapp.presentation.MainActivity_GeneratedInjector;
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel_HiltModules;
+import com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel_HiltModules;
 import com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
@@ -149,6 +150,7 @@ public final class GammerMVVMApp_HiltComponents {
           ViewModelCBuilderModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           LoginViewModel_HiltModules.KeyModule.class,
+          ProfileViewModel_HiltModules.KeyModule.class,
           SignupViewModel_HiltModules.KeyModule.class
       }
   )
@@ -187,6 +189,7 @@ public final class GammerMVVMApp_HiltComponents {
       modules = {
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           LoginViewModel_HiltModules.BindsModule.class,
+          ProfileViewModel_HiltModules.BindsModule.class,
           SignupViewModel_HiltModules.BindsModule.class
       }
   )

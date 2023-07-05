@@ -65,14 +65,16 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
         Text(text = "User email", fontSize = 15.sp, fontStyle = FontStyle.Italic)
         Spacer(modifier = Modifier.height(20.dp))
         DefaultButton(
-            modifier = Modifier,
+            modifier = Modifier.width(250.dp),
             text = "Edit info",
             color = Color.White,
             icon = Icons.Default.Edit,
             textColor = Color.Black,
             onClick = { /*TODO*/ })
         Spacer(modifier = Modifier.height(10.dp))
-        DefaultButton(modifier = Modifier, text = "Logout",
+        DefaultButton(
+            modifier = Modifier.width(250.dp),
+            text = "Logout",
             onClick = {
                 viewModel.logout()
                 navHostController.navigate(AppScreen.Login.route){

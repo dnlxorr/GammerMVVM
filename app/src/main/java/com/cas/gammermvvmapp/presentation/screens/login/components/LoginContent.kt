@@ -37,6 +37,7 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
 
     val loginFlow = viewModel.loginFlow.collectAsState()
 
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,6 +120,7 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
 
         }
     }
+
     loginFlow.value.let { state ->
         when (state) {
             //Mostrar barra loading
@@ -139,18 +141,16 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
 
             is Response.Success -> {
                 LaunchedEffect(Unit){
-                    navHostController.navigate(route = AppScreen.Profile.route){
-                        popUpTo(AppScreen.Login.route){ inclusive = true  }  //olvida el historial de navegacion hasta este punto.
-                    }
+                    navHostController.navigate(route = AppScreen.Profile.route)
                 }
             }
 
             null -> {
-//                Toast.makeText(
-//                    LocalContext.current,
-//                    "Context null",
-//                    Toast.LENGTH_LONG
-//                ).show()
+                Toast.makeText(
+                    LocalContext.current,
+                    "Context null Login",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

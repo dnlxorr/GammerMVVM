@@ -8,16 +8,16 @@ import javax.inject.Inject;
 public final class Login {
     private final com.cas.gammermvvmapp.domain.repository.AuthRepository repository = null;
     
-    @javax.inject.Inject()
-    public Login(@org.jetbrains.annotations.NotNull()
+    @javax.inject.Inject
+    public Login(@org.jetbrains.annotations.NotNull
     com.cas.gammermvvmapp.domain.repository.AuthRepository repository) {
         super();
     }
     
-    @org.jetbrains.annotations.Nullable()
-    public final java.lang.Object invoke(@org.jetbrains.annotations.NotNull()
-    java.lang.String email, @org.jetbrains.annotations.NotNull()
-    java.lang.String password, @org.jetbrains.annotations.NotNull()
+    @org.jetbrains.annotations.Nullable
+    public final java.lang.Object invoke(@org.jetbrains.annotations.NotNull
+    java.lang.String email, @org.jetbrains.annotations.NotNull
+    java.lang.String password, @org.jetbrains.annotations.NotNull
     kotlin.coroutines.Continuation<? super com.cas.gammermvvmapp.domain.model.Response<? extends com.google.firebase.auth.FirebaseUser>> continuation) {
         return null;
     }

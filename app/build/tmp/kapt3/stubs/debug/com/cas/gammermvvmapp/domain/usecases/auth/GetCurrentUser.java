@@ -7,13 +7,13 @@ import javax.inject.Inject;
 public final class GetCurrentUser {
     private final com.cas.gammermvvmapp.domain.repository.AuthRepository repository = null;
     
-    @javax.inject.Inject()
-    public GetCurrentUser(@org.jetbrains.annotations.NotNull()
+    @javax.inject.Inject
+    public GetCurrentUser(@org.jetbrains.annotations.NotNull
     com.cas.gammermvvmapp.domain.repository.AuthRepository repository) {
         super();
     }
     
-    @org.jetbrains.annotations.Nullable()
+    @org.jetbrains.annotations.Nullable
     public final com.google.firebase.auth.FirebaseUser invoke() {
         return null;
     }

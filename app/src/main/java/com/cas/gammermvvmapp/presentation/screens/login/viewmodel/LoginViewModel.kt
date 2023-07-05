@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases): ViewModel() {
+
     var email: MutableState<String> = mutableStateOf("")
     var isEmailValid: MutableState<Boolean> = mutableStateOf(false)
     var emailErrorMsg: MutableState<String> = mutableStateOf("")
@@ -28,7 +29,7 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
     private val _loginFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
     val loginFlow:StateFlow<Response<FirebaseUser>?> = _loginFlow
 
-    val currentUser = authUseCases.getCurrentUser()
+    private val currentUser: FirebaseUser? = authUseCases.getCurrentUser()
     init {
         if (currentUser != null){
             _loginFlow.value = Response.Success(currentUser)

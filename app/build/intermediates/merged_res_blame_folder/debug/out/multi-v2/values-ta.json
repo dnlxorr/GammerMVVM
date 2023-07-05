@@ -4,37 +4,20 @@
             "outputFile": "com.cas.gammermvvmapp-mergeDebugResources-53:/values-ta/values-ta.xml",
             "map": [
                 {
-                    "source": "/home/dtorres/.gradle/caches/transforms-3/bc0495c2fb3b5e4975da88b69e5e348a/transformed/play-services-base-17.1.0/res/values-ta/values.xml",
+                    "source": "/home/dtorres/.gradle/caches/transforms-3/eb3ad3dae1fc5f4b25332670b1928b81/transformed/play-services-base-18.0.1/res/values-ta/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "245,348,532,657,761,972,1098,1237,1363,1602,1707,1891,2024,2237,2419,2507,2596",
-                        "endColumns": "102,183,124,103,210,125,138,125,238,104,183,132,212,181,87,88,105",
-                        "endOffsets": "347,531,656,760,971,1097,1236,1362,1601,1706,1890,2023,2236,2418,2506,2595,2701"
+                        "startOffsets": "193,294,442,565,667,815,939,1048,1145,1321,1424,1573,1704,1854,2006,2064,2123",
+                        "endColumns": "100,147,122,101,147,123,108,96,175,102,148,130,149,151,57,58,76",
+                        "endOffsets": "293,441,564,666,814,938,1047,1144,1320,1423,1572,1703,1853,2005,2063,2122,2199"
                     },
                     "to": {
                         "startLines": "4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "286,393,577,706,814,1025,1155,1298,1589,1828,1937,2121,2258,2471,2657,2749,2842",
-                        "endColumns": "106,183,128,107,210,129,142,129,238,108,183,136,212,185,91,92,109",
-                        "endOffsets": "388,572,701,809,1020,1150,1293,1423,1823,1932,2116,2253,2466,2652,2744,2837,2947"
-                    }
-                },
-                {
-                    "source": "/home/dtorres/.gradle/caches/transforms-3/a632fe455555f74e9c4af9862961c534/transformed/play-services-basement-18.0.0/res/values-ta/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "156",
-                        "endOffsets": "351"
-                    },
-                    "to": {
-                        "startLines": "12",
-                        "startColumns": "4",
-                        "startOffsets": "1428",
-                        "endColumns": "160",
-                        "endOffsets": "1584"
+                        "startOffsets": "286,391,543,670,776,928,1056,1169,1431,1611,1718,1871,2006,2160,2316,2378,2441",
+                        "endColumns": "104,151,126,105,151,127,112,100,179,106,152,134,153,155,61,62,80",
+                        "endOffsets": "386,538,665,771,923,1051,1164,1265,1606,1713,1866,2001,2155,2311,2373,2436,2517"
                     }
                 },
                 {
@@ -47,7 +30,7 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "34",
+                        "startLines": "38",
                         "startColumns": "4",
                         "startOffsets": "4044",
                         "endColumns": "100",
@@ -64,11 +47,45 @@
                         "endOffsets": "197,281,375,476,567,650,770,861,956,1036,1115,1197,1283,1373,1442,1562"
                     },
                     "to": {
-                        "startLines": "2,3,22,23,24,25,26,27,28,29,30,31,32,33,35,36",
+                        "startLines": "2,3,23,24,25,29,30,31,32,33,34,35,36,37,39,40",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,202,2952,3046,3147,3238,3321,3441,3532,3627,3707,3786,3868,3954,4145,4214",
+                        "startOffsets": "105,202,2639,2733,2834,3238,3321,3441,3532,3627,3707,3786,3868,3954,4145,4214",
                         "endColumns": "96,83,93,100,90,82,119,90,94,79,78,81,85,89,68,119",
-                        "endOffsets": "197,281,3041,3142,3233,3316,3436,3527,3622,3702,3781,3863,3949,4039,4209,4329"
+                        "endOffsets": "197,281,2728,2829,2920,3316,3436,3527,3622,3702,3781,3863,3949,4039,4209,4329"
+                    }
+                },
+                {
+                    "source": "/home/dtorres/.gradle/caches/transforms-3/e10ace0df4feaf0ecb37fb95917885ca/transformed/browser-1.4.0/res/values-ta/values-ta.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,172,274,381",
+                        "endColumns": "116,101,106,103",
+                        "endOffsets": "167,269,376,480"
+                    },
+                    "to": {
+                        "startLines": "22,26,27,28",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "2522,2925,3027,3134",
+                        "endColumns": "116,101,106,103",
+                        "endOffsets": "2634,3022,3129,3233"
+                    }
+                },
+                {
+                    "source": "/home/dtorres/.gradle/caches/transforms-3/98d745d6f634c69e4756727e99bf1e20/transformed/play-services-basement-18.1.0/res/values-ta/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "156",
+                        "endOffsets": "351"
+                    },
+                    "to": {
+                        "startLines": "12",
+                        "startColumns": "4",
+                        "startOffsets": "1270",
+                        "endColumns": "160",
+                        "endOffsets": "1426"
                     }
                 }
             ]
