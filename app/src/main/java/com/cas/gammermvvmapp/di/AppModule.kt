@@ -7,6 +7,7 @@ import com.cas.gammermvvmapp.domain.repository.AuthRepository
 import com.cas.gammermvvmapp.domain.repository.UsersRepository
 import com.cas.gammermvvmapp.domain.usecases.auth.*
 import com.cas.gammermvvmapp.domain.usecases.users.CreateNewUser
+import com.cas.gammermvvmapp.domain.usecases.users.GetUserById
 import com.cas.gammermvvmapp.domain.usecases.users.UsersUseCases
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -46,6 +47,7 @@ object AppModule {
 
     @Provides
     fun providesUsersUseCases(repository: UsersRepository) = UsersUseCases(
-        createNewUser = CreateNewUser(repository)
+        createNewUser = CreateNewUser(repository),
+        getUserById = GetUserById(repository)
     )
 }

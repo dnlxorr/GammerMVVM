@@ -57,12 +57,12 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
         }
         Spacer(modifier = Modifier.height(55.dp))
         Text(
-            text = "Username",
+            text = viewModel.userData.username,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Italic
         )
-        Text(text = "User email", fontSize = 15.sp, fontStyle = FontStyle.Italic)
+        Text(text = viewModel.userData.email, fontSize = 15.sp, fontStyle = FontStyle.Italic)
         Spacer(modifier = Modifier.height(20.dp))
         DefaultButton(
             modifier = Modifier.width(250.dp),

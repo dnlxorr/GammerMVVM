@@ -1,5 +1,6 @@
 package com.cas.gammermvvmapp.domain.usecases.users
 
 data class UsersUseCases(
-    val createNewUser: CreateNewUser
+    val createNewUser: CreateNewUser,
+    val getUserById: GetUserById
 )

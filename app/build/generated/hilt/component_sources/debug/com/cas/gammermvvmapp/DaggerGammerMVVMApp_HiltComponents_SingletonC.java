@@ -471,7 +471,7 @@ public final class DaggerGammerMVVMApp_HiltComponents_SingletonC {
           return (T) new LoginViewModel(singletonCImpl.authUseCases());
 
           case 1: // com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel 
-          return (T) new ProfileViewModel(singletonCImpl.authUseCases());
+          return (T) new ProfileViewModel(singletonCImpl.authUseCases(), singletonCImpl.usersUseCases());
 
           case 2: // com.cas.gammermvvmapp.presentation.screens.signup.SignupViewModel 
           return (T) new SignupViewModel(singletonCImpl.authUseCases(), singletonCImpl.usersUseCases());
