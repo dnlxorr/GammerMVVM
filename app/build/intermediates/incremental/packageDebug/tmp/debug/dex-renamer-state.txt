@@ -1,4 +1,4 @@
-#Wed Jul 05 12:27:20 COT 2023
+#Wed Jul 05 13:37:31 COT 2023
 base.0=/home/dtorres/StudioProjects/GammerMVVM/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/home/dtorres/StudioProjects/GammerMVVM/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.10=/home/dtorres/StudioProjects/GammerMVVM/app/build/intermediates/dex/debug/mergeProjectDexDebug/7/classes.dex
