@@ -1,5 +1,6 @@
 package com.cas.gammermvvmapp.presentation.screens.login.components
 
+import android.view.KeyEvent.ACTION_DOWN
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,8 +12,12 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,9 +38,13 @@ import com.cas.gammermvvmapp.presentation.navigation.AppScreen
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel
 
 @Composable
-fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel = hiltViewModel()) {
+fun LoginContent(
+    navHostController: NavHostController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
 
     val loginFlow = viewModel.loginFlow.collectAsState()
+    val focusManager = LocalFocusManager.current
 
 
     Box(
@@ -80,7 +89,15 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = "Please login to continue", fontSize = 12.sp, color = Color.Gray)
                 DefaultTextField(
-                    modifier = Modifier.padding(top = 25.dp),
+                    modifier = Modifier.padding(top = 25.dp)
+                        .onPreviewKeyEvent {
+                            if (it.key == Key.Tab && it.nativeKeyEvent.action == ACTION_DOWN) {
+                                focusManager.moveFocus(FocusDirection.Down)
+                                true
+                            } else {
+                                false
+                            }
+                        },
                     value = viewModel.email.value,
                     onValueChange = { value -> viewModel.email.value = value },
                     label = "Email",
@@ -140,7 +157,7 @@ fun LoginContent(navHostController: NavHostController, viewModel: LoginViewModel
             ).show()
 
             is Response.Success -> {
-                LaunchedEffect(Unit){
+                LaunchedEffect(Unit) {
                     navHostController.navigate(route = AppScreen.Profile.route)
                 }
             }
