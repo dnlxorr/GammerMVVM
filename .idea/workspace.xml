@@ -21,7 +21,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/dtorres/.android/avd/Nexus_S_API_28.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/dtorres/.android/avd/Pixel_3_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -298,12 +298,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/cas/gammermvvmapp/presentation/screens/login/components/LoginContent.kt</url>
-          <line>158</line>
+          <line>161</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/cas/gammermvvmapp/presentation/screens/login/components/LoginContent.kt</url>
-          <line>160</line>
+          <line>163</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
