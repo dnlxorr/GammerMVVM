@@ -16,13 +16,13 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases): ViewModel() {
 
-    var email: MutableState<String> = mutableStateOf("")
-    var isEmailValid: MutableState<Boolean> = mutableStateOf(false)
-    var emailErrorMsg: MutableState<String> = mutableStateOf("")
+    var email: String by mutableStateOf("") //se declara el tipo de dato pero no hace falta, se podria quitar
+    var isEmailValid by mutableStateOf(false)
+    var emailErrorMsg by mutableStateOf("")
 
-    var password: MutableState<String> = mutableStateOf("")
-    var isPasswordValid: MutableState<Boolean> = mutableStateOf(false)
-    var passwordErrorMsg: MutableState<String> = mutableStateOf("")
+    var password by mutableStateOf("")
+    var isPasswordValid by mutableStateOf(false)
+    var passwordErrorMsg by mutableStateOf("")
 
     var isEnabledLoginButton = false
 
@@ -38,32 +38,32 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
 
     fun login() = viewModelScope.launch {
         _loginFlow.value = Response.Loading
-        val result = authUseCases.login(email.value,password.value)
+        val result = authUseCases.login(email,password)
         _loginFlow.value = result
     }
 
     fun enabledLoginButton(){
-        isEnabledLoginButton = isEmailValid.value && isPasswordValid.value
+        isEnabledLoginButton = isEmailValid && isPasswordValid
     }
 
     fun validateEmail(){
-        if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()){
-            isEmailValid.value = true
-            emailErrorMsg.value = ""
+        if (Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            isEmailValid = true
+            emailErrorMsg = ""
         }else{
-            isEmailValid.value =false
-            emailErrorMsg.value = "Invalid email!"
+            isEmailValid = false
+            emailErrorMsg = "Invalid email!"
         }
         enabledLoginButton()
     }
 
     fun validatePassword(){
-        if (password.value.length>=6){
-            isPasswordValid.value = true
-            passwordErrorMsg.value = ""
+        if (password.length>=6){
+            isPasswordValid = true
+            passwordErrorMsg = ""
         }else{
-            isPasswordValid.value = false
-            passwordErrorMsg.value = "Use 6 characters or more!"
+            isPasswordValid = false
+            passwordErrorMsg = "Use 6 characters or more!"
         }
         enabledLoginButton()
     }

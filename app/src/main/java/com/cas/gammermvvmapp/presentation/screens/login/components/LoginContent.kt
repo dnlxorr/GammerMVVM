@@ -89,21 +89,13 @@ fun LoginContent(
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = "Please login to continue", fontSize = 12.sp, color = Color.Gray)
                 DefaultTextField(
-                    modifier = Modifier.padding(top = 25.dp)
-                        .onPreviewKeyEvent {
-                            if (it.key == Key.Tab && it.nativeKeyEvent.action == ACTION_DOWN) {
-                                focusManager.moveFocus(FocusDirection.Down)
-                                true
-                            } else {
-                                false
-                            }
-                        },
-                    value = viewModel.email.value,
-                    onValueChange = { value -> viewModel.email.value = value },
+                    modifier = Modifier.padding(top = 25.dp),
+                    value = viewModel.email,
+                    onValueChange = { value -> viewModel.email = value },
                     label = "Email",
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
-                    errorMsg = viewModel.emailErrorMsg.value,
+                    errorMsg = viewModel.emailErrorMsg,
                     validateField = {
                         viewModel.validateEmail()
                     }
@@ -112,13 +104,13 @@ fun LoginContent(
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 5.dp),
-                    value = viewModel.password.value,
-                    onValueChange = { viewModel.password.value = it },
+                    value = viewModel.password,
+                    onValueChange = { viewModel.password = it },
                     label = "Password",
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = viewModel.passwordErrorMsg.value,
+                    errorMsg = viewModel.passwordErrorMsg,
                     validateField = {
                         viewModel.validatePassword()
                     }
