@@ -11,9 +11,11 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalContext
@@ -37,6 +39,7 @@ import com.cas.gammermvvmapp.presentation.Red500
 import com.cas.gammermvvmapp.presentation.navigation.AppScreen
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginContent(
     navHostController: NavHostController,
