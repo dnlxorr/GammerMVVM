@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.cas.gammermvvmapp.presentation.screens.login.components.LoginBottomBar
 import com.cas.gammermvvmapp.presentation.screens.login.components.LoginContent
 import com.cas.gammermvvmapp.presentation.GammerMVVMAppTheme
+import com.cas.gammermvvmapp.presentation.screens.login.components.Login
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -24,6 +25,8 @@ fun LogingScreen(navHostController: NavHostController) {
         },
         bottomBar = { LoginBottomBar(navHostController) }
     )
+    //Manejar estado de la petition de login
+    Login(navHostController = navHostController)
 }
 
 

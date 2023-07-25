@@ -46,8 +46,8 @@ fun LoginContent(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    val loginFlow = viewModel.loginFlow.collectAsState()
     val focusManager = LocalFocusManager.current
+    val state = viewModel.state
 
 
     Box(
@@ -93,8 +93,8 @@ fun LoginContent(
                 Text(text = "Please login to continue", fontSize = 12.sp, color = Color.Gray)
                 DefaultTextField(
                     modifier = Modifier.padding(top = 25.dp),
-                    value = viewModel.email,
-                    onValueChange = { value -> viewModel.email = value },
+                    value = state.email,
+                    onValueChange = { value -> viewModel.onEmailInput(value) },
                     label = "Email",
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
@@ -107,8 +107,8 @@ fun LoginContent(
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 5.dp),
-                    value = viewModel.password,
-                    onValueChange = { viewModel.password = it },
+                    value = state.password,
+                    onValueChange = { viewModel.onPasswordInput(it) },
                     label = "Password",
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
@@ -133,39 +133,7 @@ fun LoginContent(
         }
     }
 
-    loginFlow.value.let { state ->
-        when (state) {
-            //Mostrar barra loading
-            Response.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
 
-                    ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is Response.Failure -> Toast.makeText(
-                LocalContext.current,
-                state.exception?.message ?: "Unknown error", Toast.LENGTH_LONG
-            ).show()
-
-            is Response.Success -> {
-                LaunchedEffect(Unit) {
-                    navHostController.navigate(route = AppScreen.Profile.route)
-                }
-            }
-
-            null -> {
-                Toast.makeText(
-                    LocalContext.current,
-                    "Context null Login",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
 }
 
 
