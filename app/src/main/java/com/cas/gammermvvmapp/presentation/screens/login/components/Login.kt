@@ -25,7 +25,8 @@ fun Login(navHostController: NavHostController,viewModel: LoginViewModel = hiltV
 
         is Response.Failure -> Toast.makeText(
             LocalContext.current,
-            loginResponse.exception?.message ?: "Unknown error", Toast.LENGTH_LONG
+            loginResponse.exception?.message ?: "Unknown error",
+            Toast.LENGTH_LONG
         ).show()
 
         is Response.Success -> {
