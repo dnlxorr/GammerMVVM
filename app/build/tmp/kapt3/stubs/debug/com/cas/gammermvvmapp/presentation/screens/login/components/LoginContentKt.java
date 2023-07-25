@@ -6,6 +6,7 @@ import androidx.compose.material.*;
 import androidx.compose.material.icons.Icons;
 import androidx.compose.runtime.*;
 import androidx.compose.ui.Alignment;
+import androidx.compose.ui.ExperimentalComposeUiApi;
 import androidx.compose.ui.Modifier;
 import androidx.compose.ui.focus.FocusDirection;
 import androidx.compose.ui.text.font.FontWeight;
@@ -21,6 +22,7 @@ import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel
 public final class LoginContentKt {
     
     @androidx.compose.runtime.Composable
+    @kotlin.OptIn(markerClass = {androidx.compose.ui.ExperimentalComposeUiApi.class})
     public static final void LoginContent(@org.jetbrains.annotations.NotNull
     androidx.navigation.NavHostController navHostController, @org.jetbrains.annotations.NotNull
     com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel viewModel) {
