@@ -23,16 +23,20 @@ class LoginViewModel @Inject constructor(private val authUseCases: AuthUseCases)
 
     //var email: String by mutableStateOf("") //se declara el tipo de dato String pero no hace falta, se podria quitar
     var isEmailValid by mutableStateOf(false)
+        private set
     var emailErrorMsg by mutableStateOf("")
-
+        private set
     //var password by mutableStateOf("")
     var isPasswordValid by mutableStateOf(false)
+        private set
     var passwordErrorMsg by mutableStateOf("")
+        private set
 
     var isEnabledLoginButton = false
 
     //Login Response
     var loginResponse by mutableStateOf<Response<FirebaseUser>?>(null)
+        private set
 
     private val currentUser: FirebaseUser? = authUseCases.getCurrentUser()
     init {
