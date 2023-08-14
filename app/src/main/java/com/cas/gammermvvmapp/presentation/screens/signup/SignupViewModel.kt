@@ -1,7 +1,6 @@
 package com.cas.gammermvvmapp.presentation.screens.signup
 
 import android.util.Patterns
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,44 +18,66 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases, private val usersUseCases: UsersUseCases) : ViewModel() {
+class SignupViewModel @Inject constructor(
+    private val authUseCases: AuthUseCases,
+    private val usersUseCases: UsersUseCases
+) : ViewModel() {
 
-    var email by mutableStateOf("")
+    var state by mutableStateOf(SignupState())
+
     var isEmailValid by mutableStateOf(false)
     var emailErrorMsg by mutableStateOf("")
 
-    var password by mutableStateOf("")
     var isPasswordValid by mutableStateOf(false)
     var passwordErrorMsg by mutableStateOf("")
 
-    var username by mutableStateOf("")
     var isUsernameValid by mutableStateOf(false)
     var usernameErrorMsg by mutableStateOf("")
 
-    var confirmPassword by mutableStateOf("")
     var isConfirmPasswordValid by mutableStateOf(false)
     var confirmPasswordErrorMsg by mutableStateOf("")
 
     var isEnabledSignupButton = false
 
-    private fun enableSignupButton() {
-        isEnabledSignupButton =
-            isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid
-    }
-
     private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
     val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
 
     var user = User()
+
+
+    fun onEmailInput(email: String) {
+        state = state.copy(email = email)
+    }
+    fun onUsernameInput(username: String) {
+        state = state.copy(username = username)
+    }
+
+    fun onPasswordInput(password: String) {
+        state = state.copy(password = password)
+    }
+
+    fun onConfirmPasswordInput(confirmPassword: String) {
+        state = state.copy(confirmPassword = confirmPassword)
+    }
+
+    private fun enableSignupButton() {
+        isEnabledSignupButton =
+            isUsernameValid &&
+                    isEmailValid &&
+                    isPasswordValid &&
+                    isConfirmPasswordValid
+    }
+
     fun signup(user: User) = viewModelScope.launch {
         _signupFlow.value = Response.Loading
         val result = authUseCases.signup(user)
         _signupFlow.value = result
     }
-    fun onSignup(){
-        user.username = username
-        user.email = email
-        user.password = password
+
+    fun onSignup() {
+        user.username = state.username
+        user.email = state.email
+        user.password = state.password
         signup(user)
     }
 
@@ -66,7 +87,7 @@ class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases
     }
 
     fun validateUsername() {
-        if (username.length >= 5) {
+        if (state.username.length >= 5) {
             isUsernameValid = true
             usernameErrorMsg = ""
         } else {
@@ -77,7 +98,7 @@ class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases
     }
 
     fun validateEmail() {
-        if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (Patterns.EMAIL_ADDRESS.matcher(state.email).matches()) {
             isEmailValid = true
             emailErrorMsg = ""
         } else {
@@ -88,7 +109,7 @@ class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases
     }
 
     fun validatePassword() {
-        if (password.length >= 6) {
+        if (state.password.length >= 6) {
             isPasswordValid = true
             passwordErrorMsg = ""
         } else {
@@ -99,7 +120,7 @@ class SignupViewModel @Inject constructor(private val authUseCases: AuthUseCases
     }
 
     fun validateConfirmPassword() {
-        if (password == confirmPassword) {
+        if (state.password == state.confirmPassword) {
             isConfirmPasswordValid = true
             confirmPasswordErrorMsg = ""
         } else {

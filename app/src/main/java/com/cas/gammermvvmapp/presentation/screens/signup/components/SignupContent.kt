@@ -41,6 +41,7 @@ fun SignUpContent(
 ) {
 
     val signupFlow = signupViewModel.signupFlow.collectAsState()
+    val state = signupViewModel.state
 
     Box(
         modifier = Modifier
@@ -89,43 +90,43 @@ fun SignUpContent(
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 8.dp),
-                    value = signupViewModel.username.value,
-                    onValueChange = { value -> signupViewModel.username.value = value },
+                    value = state.username,
+                    onValueChange = { signupViewModel.onUsernameInput(it) },
                     label = "User Name",
                     icon = Icons.Default.Person,
-                    errorMsg = signupViewModel.usernameErrorMsg.value,
+                    errorMsg = signupViewModel.usernameErrorMsg,
                     validateField = { signupViewModel.validateUsername() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
-                    value = signupViewModel.email.value,
-                    onValueChange = { value -> signupViewModel.email.value = value },
+                    value = state.email,
+                    onValueChange = { signupViewModel.onEmailInput(it) },
                     label = "Email",
                     icon = Icons.Default.Email,
                     keyboardType = KeyboardType.Email,
-                    errorMsg = signupViewModel.emailErrorMsg.value,
+                    errorMsg = signupViewModel.emailErrorMsg,
                     validateField = { signupViewModel.validateEmail() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
-                    value = signupViewModel.password.value,
-                    onValueChange = { signupViewModel.password.value = it },
+                    value = state.password,
+                    onValueChange = { signupViewModel.onPasswordInput(it) },
                     label = "Password",
                     icon = Icons.Default.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = signupViewModel.passwordErrorMsg.value,
+                    errorMsg = signupViewModel.passwordErrorMsg,
                     validateField = { signupViewModel.validatePassword() }
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 0.dp),
-                    value = signupViewModel.confirmPassword.value,
-                    onValueChange = { signupViewModel.confirmPassword.value = it },
+                    value = state.confirmPassword,
+                    onValueChange = { signupViewModel.onConfirmPasswordInput(it) },
                     label = "Confirm Password",
                     icon = Icons.Outlined.Lock,
                     keyboardType = KeyboardType.Password,
                     hideText = true,
-                    errorMsg = signupViewModel.confirmPasswordErrorMsg.value,
+                    errorMsg = signupViewModel.confirmPasswordErrorMsg,
                     validateField = { signupViewModel.validateConfirmPassword() }
                 )
 
