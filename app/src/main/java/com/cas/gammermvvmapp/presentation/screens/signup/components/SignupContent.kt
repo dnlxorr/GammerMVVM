@@ -40,7 +40,6 @@ fun SignUpContent(
     signupViewModel: SignupViewModel = hiltViewModel()
 ) {
 
-    val signupFlow = signupViewModel.signupFlow.collectAsState()
     val state = signupViewModel.state
 
     Box(
@@ -143,34 +142,7 @@ fun SignUpContent(
 
         }
     }
-    signupFlow.value.let {
-        when (it) {
-            Response.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-            is Response.Success -> {
-                LaunchedEffect(Unit) {
-                    signupViewModel.createUser()
-                    navHostController.popBackStack(AppScreen.Login.route, inclusive = true)
-                    navHostController.navigate(route = AppScreen.Profile.route)
-                }
-            }
 
-            is Response.Failure -> {
-                Toast.makeText(
-                    LocalContext.current,
-                    it.exception?.message ?: "Unknown erorr",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            else -> {}
-        }
-    }
 
 }
 

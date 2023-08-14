@@ -7,6 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.cas.gammermvvmapp.presentation.components.DefaultTopBar
+import com.cas.gammermvvmapp.presentation.screens.signup.components.SignUp
 import com.cas.gammermvvmapp.presentation.screens.signup.components.SignUpContent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -17,6 +18,7 @@ fun SignUpScreen(navHostController: NavHostController) {
                 SignUpContent(navHostController)
                 },
             bottomBar = {})
+    SignUp(navHostController = navHostController)
 }
 
 @Preview(showBackground = true, showSystemUi = true)

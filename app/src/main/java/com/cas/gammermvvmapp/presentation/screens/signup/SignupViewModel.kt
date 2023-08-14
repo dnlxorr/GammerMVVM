@@ -24,23 +24,36 @@ class SignupViewModel @Inject constructor(
 ) : ViewModel() {
 
     var state by mutableStateOf(SignupState())
+        private set
 
     var isEmailValid by mutableStateOf(false)
+        private set
+
     var emailErrorMsg by mutableStateOf("")
+        private set
 
     var isPasswordValid by mutableStateOf(false)
+        private set
+
     var passwordErrorMsg by mutableStateOf("")
+        private set
 
     var isUsernameValid by mutableStateOf(false)
+        private set
+
     var usernameErrorMsg by mutableStateOf("")
+        private set
 
     var isConfirmPasswordValid by mutableStateOf(false)
+        private set
+
     var confirmPasswordErrorMsg by mutableStateOf("")
+        private set
 
     var isEnabledSignupButton = false
 
-    private val _signupFlow = MutableStateFlow<Response<FirebaseUser>?>(null)
-    val signupFlow: StateFlow<Response<FirebaseUser>?> = _signupFlow
+    var signupResponse  by mutableStateOf<Response<FirebaseUser>?>(null)
+        private set
 
     var user = User()
 
@@ -69,9 +82,9 @@ class SignupViewModel @Inject constructor(
     }
 
     fun signup(user: User) = viewModelScope.launch {
-        _signupFlow.value = Response.Loading
+        signupResponse = Response.Loading
         val result = authUseCases.signup(user)
-        _signupFlow.value = result
+        signupResponse = result
     }
 
     fun onSignup() {
