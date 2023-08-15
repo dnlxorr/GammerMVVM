@@ -26,7 +26,7 @@ class SignupViewModel @Inject constructor(
     var state by mutableStateOf(SignupState())
         private set
 
-    var isEmailValid by mutableStateOf(false)
+    var usernameErrorMsg by mutableStateOf("")
         private set
 
     var emailErrorMsg by mutableStateOf("")
@@ -38,10 +38,11 @@ class SignupViewModel @Inject constructor(
     var passwordErrorMsg by mutableStateOf("")
         private set
 
+
     var isUsernameValid by mutableStateOf(false)
         private set
 
-    var usernameErrorMsg by mutableStateOf("")
+    var isEmailValid by mutableStateOf(false)
         private set
 
     var isConfirmPasswordValid by mutableStateOf(false)
