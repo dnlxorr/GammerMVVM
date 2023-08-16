@@ -6,20 +6,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.domain.model.User
 import com.cas.gammermvvmapp.domain.usecases.users.UsersUseCases
 import com.cas.gammermvvmapp.presentation.screens.signup.SignupState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val usersUseCases: UsersUseCases): ViewModel() {
+    private val usersUseCases: UsersUseCases
+) : ViewModel() {
     var state by mutableStateOf(ProfileEditState())
         private set
 
     var usernameErrorMsg by mutableStateOf("")
+        private set
+    var updateResponese by mutableStateOf<Response<Boolean>>(Response.Success(false))
         private set
 
     val data = savedStateHandle.get<String>("user")
@@ -29,9 +35,24 @@ class ProfileEditViewModel @Inject constructor(
         state = state.copy(username = user.username)
     }
 
+    fun onUpdateUser(){
+        val myUser = User(
+            id = user.id,
+            username = state.username,
+            image = ""
+        )
+        updateUser(myUser)
+    }
+    fun updateUser(user: User) = viewModelScope.launch {
+        updateResponese = Response.Loading
+        val result = usersUseCases.updateUser(user)
+        updateResponese = result
+    }
+
     fun validateUsername() {
         usernameErrorMsg = (if (state.username.length >= 5) "" else "5 chars at least!")
     }
+
     fun onUsernameInput(username: String) {
         state = state.copy(username = username)
     }

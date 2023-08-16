@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.cas.gammermvvmapp.domain.usecases.users.UpdateUser
 import com.cas.gammermvvmapp.presentation.components.DefaultTopBar
 import com.cas.gammermvvmapp.presentation.screens.profile.components.ProfileContent
 import com.cas.gammermvvmapp.presentation.screens.profile_edit.components.ProfileEditContent
+import com.cas.gammermvvmapp.presentation.screens.profile_edit.components.Update
 import com.cas.gammermvvmapp.presentation.screens.signup.components.SignUpContent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -20,4 +22,5 @@ fun ProfileEditScreen(
             ProfileEditContent(navHostController)
         },
         bottomBar = {})
+    Update()
 }

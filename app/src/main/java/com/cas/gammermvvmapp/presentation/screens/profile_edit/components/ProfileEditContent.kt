@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cas.gammermvvmapp.R
 import com.cas.gammermvvmapp.presentation.Darkgray500
@@ -102,7 +103,7 @@ fun ProfileEditContent (
                             .fillMaxWidth()
                             .padding(top = 20.dp, bottom = 40.dp),
                         text = "UPDATE",
-                        onClick = { },
+                        onClick = { profielEditViewModel.onUpdateUser()},
                     )
 
                 }
