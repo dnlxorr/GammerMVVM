@@ -48,6 +48,7 @@ object AppModule {
     @Provides
     fun providesUsersUseCases(repository: UsersRepository) = UsersUseCases(
         createNewUser = CreateNewUser(repository),
+        updateUser = UpdateUser(repository),
         getUserById = GetUserById(repository)
     )
 }
