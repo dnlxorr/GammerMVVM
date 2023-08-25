@@ -30,5 +30,7 @@ fun Update(viewModel: ProfileEditViewModel = hiltViewModel()) {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+        else -> {}
     }
 }

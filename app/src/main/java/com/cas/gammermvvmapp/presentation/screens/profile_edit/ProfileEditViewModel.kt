@@ -1,6 +1,6 @@
 package com.cas.gammermvvmapp.presentation.screens.profile_edit
 
-import android.view.View
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.domain.model.User
 import com.cas.gammermvvmapp.domain.usecases.users.UsersUseCases
-import com.cas.gammermvvmapp.presentation.screens.signup.SignupState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,8 +24,12 @@ class ProfileEditViewModel @Inject constructor(
 
     var usernameErrorMsg by mutableStateOf("")
         private set
-    var updateResponese by mutableStateOf<Response<Boolean>>(Response.Success(false))
+    var updateResponese by mutableStateOf<Response<Boolean>?>(null)
         private set
+    
+    var imageUri by mutableStateOf<Uri?>(null)
+    var hasImage by mutableStateOf(false)
+
 
     val data = savedStateHandle.get<String>("user")
     val user = User.fromJson(data!!)
@@ -35,6 +38,12 @@ class ProfileEditViewModel @Inject constructor(
         state = state.copy(username = user.username)
     }
 
+    fun onGalleryResult(uri: Uri){
+        imageUri = uri
+    }
+    fun onCameraResult(result: Boolean){
+        hasImage = result
+    }
     fun onUpdateUser(){
         val myUser = User(
             id = user.id,
