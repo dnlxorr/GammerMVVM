@@ -37,7 +37,7 @@
         </activity>
         <provider
             android:name=".presentation.utils.ComposeFileProvider"
-            android:authorities="com.cas.gammermvvmapp"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
