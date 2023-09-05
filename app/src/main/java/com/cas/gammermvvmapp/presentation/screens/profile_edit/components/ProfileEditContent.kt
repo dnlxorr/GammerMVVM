@@ -1,7 +1,5 @@
 package com.cas.gammermvvmapp.presentation.screens.profile_edit.components
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,17 +9,20 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,31 +35,29 @@ import com.cas.gammermvvmapp.presentation.Darkgray500
 import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.DefaultTextField
 import com.cas.gammermvvmapp.presentation.Red500
+import com.cas.gammermvvmapp.presentation.components.DialogProfilePicture
 import com.cas.gammermvvmapp.presentation.screens.profile_edit.ProfileEditViewModel
-import com.cas.gammermvvmapp.presentation.utils.ComposeFileProvider
 
 @Composable
 fun ProfileEditContent(
     navHostController: NavHostController,
-    profielEditViewModel: ProfileEditViewModel = hiltViewModel()
+    viewModel: ProfileEditViewModel = hiltViewModel()
 ) {
 
-    val state = profielEditViewModel.state
+    val state = viewModel.state
 
-    val imagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
-            uri?.let { profielEditViewModel.onGalleryResult(it) }
-        }
+    viewModel.resultingActivityHandler.handle()
+
+    var dialogState = remember {
+        mutableStateOf(false)
+    }
+
+    DialogProfilePicture(
+        status = dialogState,
+        takePhoto = { viewModel.takePhoto() },
+        pickImage = { viewModel.pickImage() }
     )
 
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture(),
-        onResult = { hasImage ->
-            hasImage?.let { profielEditViewModel.onCameraResult(it) }
-        }
-    )
-    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,31 +65,33 @@ fun ProfileEditContent(
         Box(
             modifier = Modifier
                 .height(230.dp)
-                .background(Red500)
                 .fillMaxWidth()
+                .background(Red500)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
-                if (profielEditViewModel.imageUri != null) {
+                if (viewModel.state.image != "") {
                     AsyncImage(
                         modifier = Modifier
                             .height(80.dp)
-                            .clip(CircleShape),
-                        model = profielEditViewModel.imageUri,
-                        contentDescription = "Selected image"
+                            .width(80.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                dialogState.value = true
+                            },
+                        model = viewModel.state.image,
+                        contentDescription = "Selected image",
+                        contentScale = ContentScale.Crop
                     )
                 } else {
                     Image(
                         modifier = Modifier
                             .height(80.dp)
                             .clickable {
-//                                imagePicker.launch("image/*")
-                                val uri = ComposeFileProvider.getImageUri(context)
-                                profielEditViewModel.onGalleryResult(uri)
-                                cameraLauncher.launch(uri)
+                                       dialogState.value = true
                             },
                         painter = painterResource(id = R.drawable.user),
                         contentDescription = "User Image"
@@ -124,11 +125,11 @@ fun ProfileEditContent(
                 DefaultTextField(
                     modifier = Modifier.padding(top = 8.dp),
                     value = state.username,
-                    onValueChange = { profielEditViewModel.onUsernameInput(it) },
+                    onValueChange = { viewModel.onUsernameInput(it) },
                     label = "User Name",
                     icon = Icons.Default.Person,
-                    errorMsg = profielEditViewModel.usernameErrorMsg,
-                    validateField = { profielEditViewModel.validateUsername() }
+                    errorMsg = viewModel.usernameErrorMsg,
+                    validateField = { viewModel.validateUsername() }
                 )
 
 
@@ -137,7 +138,7 @@ fun ProfileEditContent(
                         .fillMaxWidth()
                         .padding(top = 20.dp, bottom = 40.dp),
                     text = "UPDATE",
-                    onClick = { profielEditViewModel.onUpdateUser() },
+                    onClick = { viewModel.saveImage() },
                 )
 
             }
