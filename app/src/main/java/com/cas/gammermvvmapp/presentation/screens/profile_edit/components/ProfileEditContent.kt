@@ -40,7 +40,7 @@ import com.cas.gammermvvmapp.presentation.screens.profile_edit.ProfileEditViewMo
 
 @Composable
 fun ProfileEditContent(
-    navHostController: NavHostController,
+    navController: NavHostController,
     viewModel: ProfileEditViewModel = hiltViewModel()
 ) {
 

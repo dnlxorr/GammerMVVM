@@ -21,17 +21,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.cas.gammermvvmapp.R
 import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.GammerMVVMAppTheme
-import com.cas.gammermvvmapp.presentation.navigation.AppScreen
+import com.cas.gammermvvmapp.presentation.navigation.AuthScreen
 import com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewModel = hiltViewModel()) {
@@ -85,7 +82,7 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
             textColor = Color.Black,
             onClick = {
                 navHostController.navigate(
-                    AppScreen.ProfileEdit.passUser(viewModel.userData.toJson())
+                    AuthScreen.ProfileEdit.passUser(viewModel.userData.toJson())
                 )
             })
         Spacer(modifier = Modifier.height(10.dp))
@@ -94,8 +91,8 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
             text = "Logout",
             onClick = {
                 viewModel.logout()
-                navHostController.navigate(AppScreen.Login.route){
-                    popUpTo(AppScreen.Profile.route){inclusive=true}
+                navHostController.navigate(AuthScreen.Login.route){
+                    popUpTo(AuthScreen.Profile.route){inclusive=true}
                 }
             })
     }
