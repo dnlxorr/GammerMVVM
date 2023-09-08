@@ -1,5 +1,7 @@
 package com.cas.gammermvvmapp.presentation.screens.profile.components
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,11 +30,17 @@ import coil.compose.AsyncImage
 import com.cas.gammermvvmapp.R
 import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.GammerMVVMAppTheme
+import com.cas.gammermvvmapp.presentation.MainActivity
 import com.cas.gammermvvmapp.presentation.navigation.AuthScreen
+import com.cas.gammermvvmapp.presentation.navigation.DetailsScreen
+import com.cas.gammermvvmapp.presentation.navigation.Graph
 import com.cas.gammermvvmapp.presentation.screens.profile.ProfileViewModel
 
 @Composable
 fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewModel = hiltViewModel()) {
+
+    val activity = LocalContext.current as? Activity
+
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Box {
             Image(
@@ -82,7 +91,7 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
             textColor = Color.Black,
             onClick = {
                 navHostController.navigate(
-                    AuthScreen.ProfileEdit.passUser(viewModel.userData.toJson())
+                    DetailsScreen.ProfileEdit.passUser(viewModel.userData.toJson())
                 )
             })
         Spacer(modifier = Modifier.height(10.dp))
@@ -91,9 +100,8 @@ fun ProfileContent(navHostController: NavHostController,viewModel: ProfileViewMo
             text = "Logout",
             onClick = {
                 viewModel.logout()
-                navHostController.navigate(AuthScreen.Login.route){
-                    popUpTo(AuthScreen.Profile.route){inclusive=true}
-                }
+                activity?.finish()
+                activity?.startActivity(Intent(activity,MainActivity::class.java))
             })
     }
 }

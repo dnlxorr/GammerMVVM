@@ -9,7 +9,6 @@ import androidx.navigation.NavHostController
 import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.presentation.navigation.AuthScreen
 import com.cas.gammermvvmapp.presentation.navigation.Graph
-import com.cas.gammermvvmapp.presentation.navigation.RootScreen
 import com.cas.gammermvvmapp.presentation.screens.login.viewmodel.LoginViewModel
 
 @Composable
@@ -28,7 +27,7 @@ fun Login(navHostController: NavHostController,viewModel: LoginViewModel = hiltV
 
         is Response.Success -> {
             LaunchedEffect(Unit) {
-                navHostController.navigate(route = RootScreen.Home.route){
+                navHostController.navigate(route = Graph.HOME){
                     popUpTo(Graph.AUTHENTICATION){inclusive = true}
                 }
 
