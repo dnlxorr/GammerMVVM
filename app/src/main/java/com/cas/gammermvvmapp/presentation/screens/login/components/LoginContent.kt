@@ -93,8 +93,6 @@ fun LoginContent(
                     validateField = {
                         viewModel.validateEmail()
                     }
-
-
                 )
                 DefaultTextField(
                     modifier = Modifier.padding(top = 5.dp),

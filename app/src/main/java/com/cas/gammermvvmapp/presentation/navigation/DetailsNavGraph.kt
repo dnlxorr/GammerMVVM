@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.cas.gammermvvmapp.presentation.screens.new_post.NewPostScreen
 import com.cas.gammermvvmapp.presentation.screens.profile_edit.ProfileEditScreen
 
 fun NavGraphBuilder.detailsNavGraph(navController: NavHostController){
@@ -13,6 +14,10 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController){
         route=Graph.DETAILS,
         startDestination = DetailsScreen.ProfileEdit.route
     ){
+
+        composable(route = DetailsScreen.NewPost.route){
+            NewPostScreen(navController = navController)
+        }
         composable(
             route = DetailsScreen.ProfileEdit.route,
             arguments = listOf(navArgument("user"){
@@ -26,7 +31,11 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController){
     }
 }
 
+
 sealed class DetailsScreen(val route:String){
+
+    object NewPost:DetailsScreen(route = "post/new")
+
     object ProfileEdit:DetailsScreen(route = "profile/edit/{user}"){
             fun passUser(user:String) = "profile/edit/$user"
 
