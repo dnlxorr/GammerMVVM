@@ -1,9 +1,12 @@
 package com.cas.gammermvvmapp.presentation.screens.new_post
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.components.DefaultTopBar
 import com.cas.gammermvvmapp.presentation.screens.new_post.components.NewPostContent
 
@@ -21,6 +24,9 @@ fun NewPostScreen(navController: NavHostController) {
         },
         content = {
             NewPostContent()
+        },
+        bottomBar = {
+            DefaultButton(modifier = Modifier.fillMaxWidth(), text = "Post", onClick = { /*TODO*/ })
         }
     )
 }

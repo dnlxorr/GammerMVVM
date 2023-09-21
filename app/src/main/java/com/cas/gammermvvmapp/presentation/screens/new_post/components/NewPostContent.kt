@@ -4,9 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -15,6 +22,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,7 +53,9 @@ fun NewPostContent() {
             .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -85,7 +95,7 @@ fun NewPostContent() {
             DefaultTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp, start = 20.dp, end = 20.dp),
+                    .padding(top = 0.dp, start = 20.dp, end = 20.dp),
                 value = "",
                 onValueChange = { },
                 label = "Description",
@@ -96,11 +106,45 @@ fun NewPostContent() {
                 }
             )
             Text(
-                modifier = Modifier.padding(vertical = 15.dp),
+                modifier = Modifier.padding(vertical = 10.dp),
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 text = "Categories"
             )
+
+            radialOptions.forEach { option ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .padding(horizontal = 16.dp)
+                        .selectable(
+                            selected = false,
+                            onClick = { }
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+                    RadioButton(
+                        selected = false, 
+                        onClick = { }
+                    )
+                    Row {
+                        Text(
+                            modifier = Modifier
+                                .width(100.dp)
+                                .padding(top = 7.dp),
+                            text = option.catergory
+                        )
+                        Image(
+                            modifier = Modifier.height(40.dp),
+                            painter = painterResource(id = option.image),
+                            contentDescription = ""
+                        )
+                    }
+
+                }
+            }
         }
     }
 
