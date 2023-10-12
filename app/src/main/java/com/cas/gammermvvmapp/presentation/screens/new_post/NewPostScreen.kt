@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.components.DefaultTopBar
@@ -12,7 +13,7 @@ import com.cas.gammermvvmapp.presentation.screens.new_post.components.NewPostCon
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun NewPostScreen(navController: NavHostController) {
+fun NewPostScreen(navController: NavHostController, viewModel: NewPostViewModel = hiltViewModel()) {
 
     Scaffold(
         topBar = {
@@ -26,7 +27,10 @@ fun NewPostScreen(navController: NavHostController) {
             NewPostContent()
         },
         bottomBar = {
-            DefaultButton(modifier = Modifier.fillMaxWidth(), text = "Post", onClick = { /*TODO*/ })
+            DefaultButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Post",
+                onClick = { viewModel.onNewPost() })
         }
     )
 }
