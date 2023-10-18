@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cas.gammermvvmapp.presentation.DefaultButton
 import com.cas.gammermvvmapp.presentation.components.DefaultTopBar
+import com.cas.gammermvvmapp.presentation.screens.new_post.components.NewPost
 import com.cas.gammermvvmapp.presentation.screens.new_post.components.NewPostContent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -33,4 +34,5 @@ fun NewPostScreen(navController: NavHostController, viewModel: NewPostViewModel 
                 onClick = { viewModel.onNewPost() })
         }
     )
+    NewPost()
 }

@@ -1,6 +1,7 @@
 package com.cas.gammermvvmapp.data.repository
 
 import android.net.Uri
+import com.cas.gammermvvmapp.core.Constants.USERS
 import com.cas.gammermvvmapp.domain.model.Response
 import com.cas.gammermvvmapp.domain.model.User
 import com.cas.gammermvvmapp.domain.repository.UsersRepository
@@ -12,8 +13,13 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Named
 
-class UsersRepositoryImpl @Inject constructor(private val storageUsersRef:StorageReference,private val usersRef: CollectionReference) :
+class UsersRepositoryImpl @Inject constructor(
+    @Named(USERS)
+    private val storageUsersRef:StorageReference,
+    @Named(USERS)
+    private val usersRef: CollectionReference) :
     UsersRepository {
     override suspend fun createNewUser(user: User): Response<Boolean> {
         return try {

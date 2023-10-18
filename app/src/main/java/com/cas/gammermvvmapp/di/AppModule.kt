@@ -1,11 +1,16 @@
 package com.cas.gammermvvmapp.di
 
+import com.cas.gammermvvmapp.core.Constants.POSTS
 import com.cas.gammermvvmapp.core.Constants.USERS
 import com.cas.gammermvvmapp.data.repository.AuthRepositoryImpl
+import com.cas.gammermvvmapp.data.repository.PostsRepositoryImpl
 import com.cas.gammermvvmapp.data.repository.UsersRepositoryImpl
 import com.cas.gammermvvmapp.domain.repository.AuthRepository
+import com.cas.gammermvvmapp.domain.repository.PostsRepository
 import com.cas.gammermvvmapp.domain.repository.UsersRepository
 import com.cas.gammermvvmapp.domain.usecases.auth.*
+import com.cas.gammermvvmapp.domain.usecases.posts.Create
+import com.cas.gammermvvmapp.domain.usecases.posts.PostsUseCases
 import com.cas.gammermvvmapp.domain.usecases.users.CreateNewUser
 import com.cas.gammermvvmapp.domain.usecases.users.GetUserById
 import com.cas.gammermvvmapp.domain.usecases.users.SaveImage
@@ -22,6 +27,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -33,11 +39,21 @@ object AppModule {
     fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
 
     @Provides
+    @Named(USERS)
     fun provideStorageUsersRef(storage: FirebaseStorage): StorageReference = storage.reference.child(
         USERS)
 
     @Provides
+    @Named(USERS)
     fun provideUsersRef(db: FirebaseFirestore): CollectionReference = db.collection(USERS)
+
+    @Provides
+    @Named(POSTS)
+    fun provideStoragePostsRef(storage: FirebaseStorage): StorageReference = storage.reference.child(POSTS)
+
+    @Provides
+    @Named(POSTS)
+    fun providePostsRef(db: FirebaseFirestore): CollectionReference = db.collection(POSTS)
 
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
@@ -47,6 +63,9 @@ object AppModule {
 
     @Provides
     fun providesUsersRepository(impl: UsersRepositoryImpl): UsersRepository = impl
+
+    @Provides
+    fun providesPostsRepository(impl: PostsRepositoryImpl): PostsRepository = impl
 
     @Provides
     fun provideAuthUseCases(repository: AuthRepository) = AuthUseCases(
@@ -62,5 +81,10 @@ object AppModule {
         updateUser = UpdateUser(repository),
         getUserById = GetUserById(repository),
         saveImage = SaveImage(repository)
+    )
+
+    @Provides
+    fun providesPostsUseCases(repository: PostsRepository) = PostsUseCases(
+        create = Create(repository),
     )
 }

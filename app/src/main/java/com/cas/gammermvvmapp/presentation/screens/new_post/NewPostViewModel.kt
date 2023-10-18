@@ -8,6 +8,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cas.gammermvvmapp.R
+import com.cas.gammermvvmapp.core.Constants.POSTS
+import com.cas.gammermvvmapp.domain.model.Post
+import com.cas.gammermvvmapp.domain.model.Response
+import com.cas.gammermvvmapp.domain.usecases.auth.AuthUseCases
+import com.cas.gammermvvmapp.domain.usecases.posts.PostsUseCases
 import com.cas.gammermvvmapp.presentation.utils.ComposeFileProvider
 import com.cas.gammermvvmapp.presentation.utils.ResultingActivityHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,17 +20,43 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class NewPostViewModel @Inject constructor(
-    @ApplicationContext private val context: Context
-
-) : ViewModel() {
+    @ApplicationContext
+    private val context: Context,
+    private val postsUseCases: PostsUseCases,
+    private val authUseCases: AuthUseCases
+    ) : ViewModel() {
 
     var state by mutableStateOf(NewPostState())
 
     var file: File? = null
 
+    //Response
+    var createPostResponse by mutableStateOf<Response<Boolean>?>(null)
+        private set
+
+    //User session
+    val currentUser = authUseCases.getCurrentUser()
+
+    fun createPost(post: Post) = viewModelScope.launch {
+        createPostResponse = Response.Loading
+        val result = postsUseCases.create(post, file!!)
+        createPostResponse = result
+    }
+
+    fun onNewPost() {
+        val post = Post(
+            name = state.name,
+            description = state.description,
+            category = state.category,
+            idUser = currentUser?.uid ?: "",
+            image = state.image
+        )
+        createPost(post)
+    }
 
     val radialOptions = listOf(
         CategoryRadialButton("PC", R.drawable.icon_pc),
@@ -37,12 +68,6 @@ class NewPostViewModel @Inject constructor(
 
     val resultingActivityHandler = ResultingActivityHandler()
 
-    fun onNewPost() {
-        Log.d("onNewPost", "name: ${state.name}")
-        Log.d("onNewPost", "description: ${state.description}")
-        Log.d("onNewPost", "image: ${state.image}")
-        Log.d("onNewPost", "category: ${state.category}")
-    }
 
     fun pickImage() = viewModelScope.launch {
         val result = resultingActivityHandler.getContent("image/*")
@@ -64,6 +89,16 @@ class NewPostViewModel @Inject constructor(
             )
             file = File(state.image)
         }
+    }
+
+    fun clearForm() {
+        state = state.copy(
+            category = "",
+            description = "",
+            image = "",
+            name = ""
+        )
+        createPostResponse = null
     }
 
     fun onNameInput(name: String) {
