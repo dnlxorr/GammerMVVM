@@ -10,6 +10,7 @@ import com.cas.gammermvvmapp.domain.repository.PostsRepository
 import com.cas.gammermvvmapp.domain.repository.UsersRepository
 import com.cas.gammermvvmapp.domain.usecases.auth.*
 import com.cas.gammermvvmapp.domain.usecases.posts.Create
+import com.cas.gammermvvmapp.domain.usecases.posts.GetPosts
 import com.cas.gammermvvmapp.domain.usecases.posts.PostsUseCases
 import com.cas.gammermvvmapp.domain.usecases.users.CreateNewUser
 import com.cas.gammermvvmapp.domain.usecases.users.GetUserById
@@ -86,5 +87,6 @@ object AppModule {
     @Provides
     fun providesPostsUseCases(repository: PostsRepository) = PostsUseCases(
         create = Create(repository),
+        getPosts = GetPosts(repository)
     )
 }
