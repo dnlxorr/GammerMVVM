@@ -28,6 +28,31 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController){
                 ProfileEditScreen(navHostController = navController,it)
             }
         }
+
+        composable(
+            route = DetailsScreen.DetailPost.route,
+            arguments = listOf(navArgument("post"){
+                type = NavType.StringType
+            })
+        ) {
+            it.arguments?.getString("post")?.let {
+                DetailPostScreen(navController, post = it)
+            }
+        }
+
+        composable(
+            route = DetailsScreen.UpdatePost.route,
+            arguments = listOf(navArgument("post"){
+                type = NavType.StringType
+            })
+        ) {
+            it.arguments?.getString("post")?.let {
+                UpdatePostScreen(navController, post = it)
+            }
+        }
+
+
+
     }
 }
 
@@ -39,5 +64,11 @@ sealed class DetailsScreen(val route:String){
     object ProfileEdit:DetailsScreen(route = "profile/edit/{user}"){
             fun passUser(user:String) = "profile/edit/$user"
 
+    }
+    object DetailPost: DetailsScreen("posts/detail/{post}") {
+        fun passPost(post: String) = "posts/detail/$post"
+    }
+    object UpdatePost: DetailsScreen("posts/update/{post}") {
+        fun passPost(post: String) = "posts/update/$post"
     }
 }

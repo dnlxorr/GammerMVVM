@@ -24,6 +24,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.optic.gamermvvmapp.domain.use_cases.posts.DeleteLikePost
+import com.optic.gamermvvmapp.domain.use_cases.posts.DeletePost
+import com.optic.gamermvvmapp.domain.use_cases.posts.GetPostsByIdUser
+import com.optic.gamermvvmapp.domain.use_cases.posts.LikePost
+import com.optic.gamermvvmapp.domain.use_cases.posts.UpdatePost
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -87,6 +92,11 @@ object AppModule {
     @Provides
     fun providesPostsUseCases(repository: PostsRepository) = PostsUseCases(
         create = Create(repository),
-        getPosts = GetPosts(repository)
+        getPosts = GetPosts(repository),
+        getPostsByIdUser = GetPostsByIdUser(repository),
+        deletePost = DeletePost(repository),
+        updatePost = UpdatePost(repository),
+        likePost = LikePost(repository),
+        deleteLikePost = DeleteLikePost(repository)
     )
 }
